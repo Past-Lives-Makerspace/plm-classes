@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classes — Past Lives Makerspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#092e4c;--navy-light:#0d3a5e;--navy-dark:#061f33;
+  --gold:#eeb44b;--gold-light:#f5ca6e;--gold-glow:#eeb44b30;
+  --cream:#f4efdd;--cream-dim:#d4cfc0;
+  --steel:#96acbb;--steel-dim:#6b8396;
+  --bg:#071e32;--bg2:#0a2740;--bg3:#0e3250;--bg4:#133d5f;
+  --border:#1a4568;--border2:#245880;
+  --text:#f4efdd;--text2:#96acbb;--text3:#5a7a92;
+  --accent:#eeb44b;--accent2:#f5ca6e;--accent-glow:#eeb44b25;
+  --green:#2dd4a0;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;
+  --r:10px;--r2:14px;--max:1100px;
+  --heading:'Playfair Display',Georgia,serif;
+  --font:'Lato',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;font-weight:300;
+  background:var(--navy-dark);
+  background-image:url('https://images.squarespace-cdn.com/content/v1/634b3a44e68be653dc708619/1666300097251-9IIOE8TATR0ZNXU037QK/BACKDROP+reduced+copy.jpg?format=2500w');
+  background-size:cover;background-attachment:fixed;background-position:center;
+}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 15%,rgba(6,26,44,.45) 0%,rgba(6,26,44,.6) 30%,rgba(6,26,44,.78) 60%,rgba(6,26,44,.85) 100%)}
+body>*{position:relative;z-index:1}
+a{color:var(--gold);text-decoration:none;cursor:pointer}a:hover{text-decoration:underline;color:var(--gold-light)}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* Hero — no border, just a pool of light */
+#hero{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:56px 24px 60px;
+  background:transparent;
+}
+#hero::after{content:'';position:absolute;inset:-20% -10%;pointer-events:none;background:radial-gradient(ellipse 50% 60% at 50% 35%,rgba(238,180,75,.08) 0%,rgba(200,150,50,.03) 30%,transparent 60%)}
+#hero img{width:100%;max-width:560px;margin-bottom:16px;filter:brightness(1.25) drop-shadow(0 0 60px rgba(238,180,75,.15));mask-image:radial-gradient(ellipse 70% 70% at center,black 0%,rgba(0,0,0,.85) 35%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.15) 75%,transparent 92%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at center,black 0%,rgba(0,0,0,.85) 35%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.15) 75%,transparent 92%)}
+#hero h1{font-family:var(--heading);font-size:38px;font-weight:800;letter-spacing:-.02em;color:var(--cream)}
+#hero h1 span{color:var(--gold)}
+#hero p{font-size:15px;color:var(--steel);margin-top:8px;max-width:480px;font-weight:300}
+#hero-stats{display:flex;gap:48px;justify-content:center;margin-top:28px}
+.hs-n{font-size:32px;font-weight:900;color:var(--gold);font-family:var(--heading)}.hs-l{font-size:9px;color:var(--steel);text-transform:uppercase;letter-spacing:.14em;margin-top:3px}
+#hero-cta{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+#hero-cta a{padding:11px 32px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;letter-spacing:.03em;text-transform:uppercase}
+.cta-primary{background:var(--gold);color:var(--navy-dark);box-shadow:0 4px 20px var(--gold-glow)}.cta-primary:hover{background:var(--gold-light);text-decoration:none;box-shadow:0 6px 28px var(--gold-glow)}
+.cta-secondary{background:transparent;color:var(--cream);border:1px solid var(--steel-dim) !important}.cta-secondary:hover{border-color:var(--gold) !important;color:var(--gold);text-decoration:none}
+
+/* Nav */
+#nav-bar{display:none;background:rgba(4,20,36,.6);backdrop-filter:blur(16px);border-bottom:1px solid rgba(26,69,104,.2);padding:7px 24px}
+#nav-bar.vis{display:flex;gap:6px;align-items:center;justify-content:center}
+.nb{padding:5px 16px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--steel);transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
+.nb:hover{border-color:var(--gold);color:var(--cream)}.nb.on{background:var(--gold);color:var(--navy-dark);border-color:var(--gold)}
+
+/* Sticky filters — frosted, no hard edge */
+#cat-nav{position:sticky;top:0;z-index:50;background:rgba(4,20,36,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,69,104,.3);padding:10px 0}
+#cat-inner{display:flex;gap:6px;flex-wrap:wrap;align-items:center;max-width:var(--max);margin:0 auto;padding:0 24px}
+.cp{padding:6px 16px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--steel-dim);transition:all .2s;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.cp:hover{color:var(--cream);border-color:var(--gold);background:var(--gold-glow)}.cp.on{background:var(--gold);color:var(--navy-dark);border-color:var(--gold);box-shadow:0 0 16px var(--gold-glow)}
+.cp .ct{opacity:.4;font-size:9px;margin-left:3px}
+
+/* Views */
+.view{display:none;padding:20px 0 60px}.view.vis{display:block}
+
+/* Category sections — each gets a subtle warm glow */
+.cat-sec{margin-bottom:40px;position:relative;padding:20px;margin-left:-20px;margin-right:-20px;border-radius:var(--r2)}
+.cat-sec::before{content:'';position:absolute;inset:0;border-radius:var(--r2);background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(238,180,75,.03) 0%,rgba(9,46,76,.15) 50%,transparent 100%);pointer-events:none}
+.cat-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(238,180,75,.1)}
+.cat-hd h2{font-family:var(--heading);font-size:20px;font-weight:800;color:var(--gold)}
+.cat-hd .cc{font-size:11px;color:var(--steel-dim)}
+
+/* Class cards — grouped with depth */
+.cls-group{margin-bottom:8px}
+.cls-card{display:grid;grid-template-columns:96px 1fr auto;gap:14px;align-items:center;padding:14px 16px;background:rgba(9,46,76,.3);border:1px solid rgba(26,69,104,.3);border-radius:var(--r);cursor:pointer;transition:all .25s}
+.cls-card:hover{background:rgba(14,50,80,.5);border-color:rgba(238,180,75,.3);box-shadow:0 0 40px rgba(238,180,75,.05),0 4px 20px rgba(0,0,0,.2);transform:translateY(-1px)}
+.cls-card.expanded{background:rgba(14,50,80,.5);border-color:rgba(238,180,75,.3);border-radius:var(--r) var(--r) 0 0;box-shadow:0 0 40px rgba(238,180,75,.05)}
+.cls-img{width:96px;height:68px;border-radius:8px;object-fit:cover;background:var(--bg4);display:block}
+.cls-img-ph{width:96px;height:68px;border-radius:8px;background:linear-gradient(135deg,var(--navy),var(--navy-light));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gold);font-weight:800;opacity:.5}
+.cls-info{min-width:0}
+.cls-title{font-size:15px;font-weight:700;line-height:1.3;color:var(--cream)}
+.cls-inst{font-size:11px;color:var(--steel);margin-top:2px}.cls-inst a{color:var(--gold);font-weight:400}.cls-inst a:hover{color:var(--gold-light)}
+.cls-desc{font-size:11px;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cls-right{text-align:right;flex-shrink:0;min-width:80px}
+.cls-price{font-size:17px;font-weight:900;color:var(--green)}
+.cls-meta{font-size:10px;color:var(--text3);margin-top:2px}
+.cls-dates-count{font-size:10px;color:var(--accent);font-weight:600;margin-top:3px}
+.badge{display:inline-block;font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle;margin-left:5px}
+.badge.fx{background:#a78bfa15;color:var(--purple);border:1px solid #a78bfa25}.badge.pv{background:#f8717115;color:var(--red);border:1px solid #f8717125}
+
+/* Expanded date rows */
+.cls-dates-list{display:none;background:rgba(9,46,76,.35);border:1px solid rgba(238,180,75,.2);border-top:none;border-radius:0 0 var(--r) var(--r);padding:4px 0}
+.cls-dates-list.open{display:block}
+.cls-date-row{display:grid;grid-template-columns:96px 1fr 90px 70px 60px;gap:10px;align-items:center;padding:10px 16px;border-top:1px solid rgba(255,255,255,.04);font-size:12px;cursor:pointer;transition:all .15s;border-radius:6px;margin:2px 6px}
+.cls-date-row:hover{background:rgba(14,50,80,.4)}
+.cls-date-row:first-child{border-top:none}
+.cdr-ph{width:96px}
+.cdr-when{color:var(--text);font-weight:500}.cdr-time{color:var(--text2)}.cdr-dur{color:var(--text3);text-align:center}.cdr-spots{text-align:right;font-weight:600}
+.cdr-spots.ok{color:var(--text2)}.cdr-spots.low{color:var(--red)}.cdr-spots.full{color:var(--red);font-weight:800}
+
+/* Overlay — deepens the field */
+#overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(2,12,22,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#overlay.open{display:flex;justify-content:center;align-items:flex-start;padding-top:3vh}
+#dcard{position:relative;background:rgba(7,30,50,.85);border:1px solid rgba(238,180,75,.12);border-radius:var(--r2);width:640px;max-width:95vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(238,180,75,.04),0 32px 80px rgba(0,0,0,.4)}
+#dcard::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(238,180,75,.3),transparent);pointer-events:none}
+#dcard-img{width:100%;height:220px;object-fit:cover;border-radius:var(--r2) var(--r2) 0 0;display:none}
+#dcard-img.vis{display:block}
+#dh{padding:18px 24px 14px;border-bottom:1px solid rgba(26,69,104,.3);position:sticky;top:0;background:rgba(7,30,50,.95);backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:flex-start;z-index:1}
+#dh-left{flex:1;min-width:0}
+#dc-close{background:rgba(9,46,76,.3);border:1px solid rgba(26,69,104,.3);color:var(--steel-dim);font-size:18px;cursor:pointer;padding:4px 8px;flex-shrink:0;line-height:1;border-radius:4px;transition:all .15s}#dc-close:hover{color:var(--cream);border-color:rgba(238,180,75,.3);background:rgba(238,180,75,.08)}
+#db{padding:0 24px 24px}
+.dc-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold)}
+.dc-title{font-family:var(--heading);font-size:22px;font-weight:800;letter-spacing:-.01em;margin-top:4px;line-height:1.2;color:var(--cream)}
+.dc-inst{font-size:13px;color:var(--steel);margin-top:4px}.dc-inst a{color:var(--gold);font-weight:400}
+.dc-pbar{display:flex;align-items:baseline;gap:12px;margin:14px 0;padding:14px 16px;background:rgba(238,180,75,.04);border-radius:var(--r);border:1px solid rgba(238,180,75,.1)}
+.dc-pbig{font-size:28px;font-weight:900;color:var(--gold);font-family:var(--heading)}.dc-pmem{font-size:12px;color:var(--steel-dim)}.dc-pspot{margin-left:auto;font-size:13px;font-weight:600}
+.dc-sec{margin-top:16px}.dc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px}
+.dc-txt{font-size:13px;color:var(--text);line-height:1.7}
+.dc-srow{display:flex;gap:8px;align-items:center;padding:7px 10px;margin-bottom:2px;background:rgba(9,46,76,.25);border-radius:6px;font-size:12px;border:1px solid rgba(26,69,104,.2)}
+.dc-snum{font-size:9px;font-weight:800;color:var(--gold);background:rgba(238,180,75,.1);border-radius:4px;padding:2px 6px;min-width:20px;text-align:center}
+.dc-sdate{font-weight:600;flex:1}.dc-stime{color:var(--text2)}.dc-sdur{font-size:10px;color:var(--text3)}
+.dc-cal{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 14px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid var(--border);background:rgba(14,50,80,.4);color:var(--steel);cursor:pointer;text-decoration:none;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.dc-cal:hover{border-color:var(--gold);color:var(--gold);text-decoration:none}
+.dc-igrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.dc-icard{padding:10px 12px;background:rgba(9,46,76,.2);border-radius:var(--r);border:1px solid rgba(26,69,104,.2)}
+.dc-icard .dc-lbl{margin-bottom:2px}.dc-icard .dc-txt{font-size:11px}
+
+/* Register */
+.dc-reg{margin-top:20px;padding-top:16px;border-top:1px solid rgba(238,180,75,.1)}
+.btn-reg{display:block;width:100%;padding:14px;border:none;border-radius:4px;background:var(--gold);color:var(--navy-dark);font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-align:center;transition:all .2s;box-shadow:0 4px 20px var(--gold-glow)}
+.btn-reg:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 6px 28px var(--gold-glow)}.btn-reg:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.btn-sold{display:block;width:100%;padding:14px;border:none;border-radius:4px;background:rgba(14,50,80,.4);color:var(--red);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;cursor:default;border:1px solid rgba(248,113,113,.12)}
+#regf{margin-top:12px;display:none}#regf.open{display:block}
+.rf-r{margin-bottom:7px}.rf-r label{display:block;font-size:9px;font-weight:600;color:var(--text2);margin-bottom:2px}
+.rf-r input,.rf-r textarea{width:100%;padding:9px 10px;background:rgba(6,31,51,.6);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:12px;font-family:var(--font);outline:none}
+.rf-r input:focus,.rf-r textarea:focus{border-color:var(--gold)}.rf-r textarea{resize:vertical;min-height:40px}
+.rf-g{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rf-chk{display:flex;gap:6px;align-items:center;margin:5px 0}.rf-chk input[type="checkbox"]{width:15px;height:15px;accent-color:var(--accent)}
+.rf-chk label{font-size:10px;color:var(--text2);cursor:pointer}
+.waiver-box{max-height:100px;overflow-y:auto;padding:8px;background:rgba(6,31,51,.6);border:1px solid var(--border);border-radius:var(--r);font-size:9px;color:var(--steel-dim);line-height:1.6;white-space:pre-wrap;margin-bottom:4px}
+#reg-result{margin-top:8px;padding:10px 12px;border-radius:var(--r);font-size:12px;font-weight:600;display:none}
+#reg-result.ok{display:block;background:#34d39918;color:var(--green);border:1px solid #34d39930}
+#reg-result.wait{display:block;background:#f59e0b18;color:var(--accent);border:1px solid #f59e0b30}
+#reg-result.err{display:block;background:#f8717118;color:var(--red);border:1px solid #f8717130}
+
+/* Instructor profile overlay */
+.ip-hero{display:flex;gap:20px;align-items:flex-start;margin-bottom:20px}
+.ip-photo{width:120px;height:120px;border-radius:var(--r2);object-fit:cover;background:var(--bg4);flex-shrink:0}
+.ip-photo-ph{width:120px;height:120px;border-radius:var(--r2);background:rgba(14,50,80,.5);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);flex-shrink:0}
+.ip-name{font-family:var(--heading);font-size:24px;font-weight:800;line-height:1.2;color:var(--cream)}
+.ip-links{margin-top:6px;font-size:12px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap}
+.ip-links a{color:var(--accent)}
+.ip-bio{font-size:13px;color:var(--steel);line-height:1.7;margin-top:10px;font-weight:300}
+.ip-sec{margin-top:20px}
+.ip-sec h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.ip-cls{padding:10px 12px;background:rgba(9,46,76,.2);border-radius:var(--r);margin-bottom:4px;cursor:pointer;transition:all .2s;border:1px solid rgba(26,69,104,.2)}
+.ip-cls:hover{border-color:rgba(238,180,75,.25);background:rgba(14,50,80,.35)}
+.ip-cls-t{font-size:13px;font-weight:600}.ip-cls-m{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* Admin sections */
+.mgmt-sec{margin-bottom:24px}
+.mgmt-sec h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.mr{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(9,46,76,.25);border:1px solid rgba(26,69,104,.3);border-radius:var(--r);margin-bottom:4px;gap:8px}
+.mr:hover{border-color:rgba(238,180,75,.2);background:rgba(14,50,80,.35)}.mr-info{flex:1;min-width:0}.mr-t{font-size:12px;font-weight:700}.mr-m{font-size:10px;color:var(--text2);margin-top:1px}
+.mr-acts{display:flex;gap:4px;flex-shrink:0}
+.mb{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:rgba(14,50,80,.5);color:var(--steel);transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.mb:hover{border-color:var(--gold);color:var(--cream)}.mb.go{background:var(--gold);color:var(--navy-dark);border-color:var(--gold)}.mb.go:hover{background:var(--gold-light)}.mb.wr{border-color:var(--red);color:var(--red)}
+.sd{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.sd.draft{background:var(--text3)}.sd.pending{background:var(--accent)}.sd.published{background:var(--green)}.sd.archived{background:var(--text3);opacity:.4}
+
+/* Create form */
+#cf{background:rgba(9,46,76,.25);border:1px solid rgba(26,69,104,.3);border-radius:var(--r2);padding:18px;margin-bottom:18px}
+#cf h3{font-size:13px;font-weight:800;margin-bottom:12px;color:var(--text);text-transform:none;letter-spacing:0;border:none;padding:0}
+.cf-r{margin-bottom:8px}.cf-r label{display:block;font-size:9px;font-weight:600;color:var(--text2);margin-bottom:2px}
+.cf-r input,.cf-r textarea,.cf-r select{width:100%;padding:9px 10px;background:rgba(6,31,51,.6);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:12px;font-family:var(--font);outline:none}
+.cf-r input:focus,.cf-r textarea:focus{border-color:var(--gold)}.cf-r textarea{resize:vertical;min-height:44px}
+.cf-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#sess-rows{margin:3px 0}
+.sr{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:5px;align-items:end;margin-bottom:2px}
+.sr input{padding:7px;background:rgba(6,31,51,.6);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:11px;outline:none}
+.sr-rm{background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;padding:4px}
+.code-form{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;align-items:end}
+.code-form input{padding:7px 10px;background:rgba(6,31,51,.6);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:11px;outline:none}
+.code-form input:focus{border-color:var(--gold)}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);padding:10px 28px;background:var(--green);color:#000;border-radius:28px;font-size:13px;font-weight:700;z-index:200;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 6px 24px rgba(45,212,160,.25)}
+#toast.vis{transform:translateX(-50%) translateY(0)}
+.empty{padding:24px;text-align:center;color:var(--text3);font-size:11px}
+
+@media(max-width:768px){
+.cls-card{grid-template-columns:64px 1fr auto;gap:10px;padding:10px 12px}.cls-img,.cls-img-ph{width:64px;height:48px}
+.cls-date-row{grid-template-columns:1fr 1fr;gap:4px;padding:8px 10px;margin:1px 4px}.cdr-ph{display:none}
+.dc-igrid,.rf-g,.cf-g{grid-template-columns:1fr}
+#hero{padding:32px 20px}#hero h1{font-size:24px}#hero p{font-size:12px}#hero-stats{gap:24px}.hs-n{font-size:22px}#hero img{max-width:360px}
+#hero-cta a{padding:8px 20px;font-size:12px}
+.ip-hero{flex-direction:column;align-items:center;text-align:center}.ip-photo,.ip-photo-ph{width:100px;height:100px}
+.ip-links{justify-content:center}
+.dc-title{font-size:17px}.dc-pbig{font-size:22px}
+}
+body.embed #hero{display:none}body.embed{background:var(--navy-dark)}body.embed::before{background:rgba(6,31,51,.95)}body.embed #cat-nav{top:0}
+</style>
+</head>
+<body>
+
+<div id="hero">
+  <img src="https://images.squarespace-cdn.com/content/v1/634b3a44e68be653dc708619/ba3dbff1-cda1-43c5-a455-ab2b968d157b/Past+Lives+-+Branded+Cover+Photo.png" alt="Past Lives Makerspace">
+  <h1>Classes <span>&amp;</span> Workshops</h1>
+  <p>Learn blacksmithing, lampworking, ceramics, framing, and more from working artists in Portland's largest makerspace.</p>
+  <div id="hero-stats">
+    <div><div class="hs-n" id="s-cls">0</div><div class="hs-l">Classes</div></div>
+    <div><div class="hs-n" id="s-gui">0</div><div class="hs-l">Guilds</div></div>
+    <div><div class="hs-n" id="s-ins">0</div><div class="hs-l">Instructors</div></div>
+  </div>
+  <div id="hero-cta">
+    <a class="cta-primary" href="#catalog" onclick="event.preventDefault();document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Browse Classes</a>
+    <a class="cta-secondary" href="/api/calendar.ics" download>Subscribe to Calendar</a>
+  </div>
+</div>
+
+<div id="nav-bar"><button class="nb on" onclick="nav('browse')">Catalog</button><button class="nb" id="nb-inst" onclick="nav('inst')">My Classes</button><button class="nb" id="nb-admin" onclick="nav('admin')">Admin</button></div>
+<div id="cat-nav"><div id="cat-inner"></div></div>
+
+<div id="v-browse" class="view vis"><div class="container" id="catalog"></div></div>
+
+<div id="v-inst" class="view"><div class="container">
+  <div id="cf"><h3>Create a New Class</h3>
+    <div class="cf-r"><label>Title</label><input id="cf-title" placeholder="e.g. Intro to Lampworking with Deenie"></div>
+    <div class="cf-g"><div class="cf-r"><label>Category</label><select id="cf-cat"></select></div><div class="cf-r"><label>Price ($)</label><input id="cf-price" type="number" step="0.01" placeholder="325.00"></div></div>
+    <div class="cf-r"><label>Description</label><textarea id="cf-desc" rows="2"></textarea></div>
+    <div class="cf-g"><div class="cf-r"><label>Capacity</label><input id="cf-cap" type="number" value="6"></div><div class="cf-r"><label>Scheduling</label><select id="cf-model"><option value="fixed">Fixed dates</option><option value="flexible">Flexible</option></select></div></div>
+    <div class="cf-r"><label>Prerequisites</label><input id="cf-pre"></div>
+    <div class="cf-r"><label>Materials included</label><input id="cf-mat"></div>
+    <div class="cf-r"><label>Sessions</label><div id="sess-rows"></div><button class="mb" onclick="addSR()" style="margin-top:3px">+ Add Date</button></div>
+    <div style="margin-top:10px;display:flex;gap:5px"><button class="mb go" onclick="mkClass()">Save Draft</button><button class="mb" onclick="mkClass(1)">Save &amp; Submit</button></div>
+  </div>
+  <div class="mgmt-sec"><h3>Your Classes</h3><div id="inst-cls"></div></div>
+</div></div>
+
+<div id="v-admin" class="view"><div class="container">
+  <div class="mgmt-sec"><h3>Pending Approval</h3><div id="a-pending"></div></div>
+  <div class="mgmt-sec"><h3>All Classes</h3><div id="a-classes"></div></div>
+  <div class="mgmt-sec"><h3>Students</h3><div id="a-students"></div></div>
+  <div class="mgmt-sec"><h3>Discount Codes</h3>
+    <div class="code-form"><input id="dc-code" placeholder="CODE" style="width:100px;text-transform:uppercase"><input id="dc-desc" placeholder="Description" style="width:160px"><input id="dc-pct" type="number" placeholder="% off" style="width:60px"><input id="dc-max" type="number" placeholder="Max" style="width:60px"><button class="mb go" onclick="mkCode()">Create</button></div>
+    <div id="a-codes"></div></div>
+  <div class="mgmt-sec"><h3>Waivers</h3><div id="a-waivers"></div></div>
+  <div class="mgmt-sec"><h3>Instructors</h3><div id="a-instr"></div></div>
+</div></div>
+
+<div id="overlay" onclick="if(event.target===this)closeD()">
+  <div id="dcard"><img id="dcard-img" alt=""><div id="dh"><div id="dh-left"></div><button id="dc-close" onclick="closeD()">&times;</button></div><div id="db"></div></div>
+</div>
+<div id="toast"></div>
+
+<script>
+let NAV='browse',CATS=[],CLS=[],FILT='',INST=null,ADM=false,WT={};
+const P=new URLSearchParams(location.search),TK=P.get('token')||'',AT=P.get('admin')||'';
+const esc=s=>{const d=document.createElement('div');d.textContent=s||'';return d.innerHTML};
+const $=id=>document.getElementById(id);
+const fD=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const fDL=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+const fT=t=>{const[h,m]=t.split(':').map(Number);const a=h>=12?'pm':'am';const hr=h>12?h-12:h||12;return m?`${hr}:${m.toString().padStart(2,'0')}${a}`:`${hr}${a}`};
+const fP=c=>'$'+(c/100).toFixed(c%100?2:0);
+const fDur=m=>{if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?`${h}h${r}m`:`${h}h`};
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('vis');setTimeout(()=>t.classList.remove('vis'),2500)}
+function hdr(x){const h={'Content-Type':'application/json'};if(TK)h['X-Instructor-Token']=TK;if(AT)h['X-Admin-Token']=AT;return{...h,...x}}
+function nav(v){NAV=v;document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.view').forEach(e=>e.classList.remove('vis'));
+if(v==='browse'){document.querySelectorAll('.nb')[0].classList.add('on');$('v-browse').classList.add('vis');$('cat-nav').style.display=''}
+else{$('cat-nav').style.display='none';if(v==='inst'){$('nb-inst').classList.add('on');$('v-inst').classList.add('vis');loadInst()}
+else if(v==='admin'){$('nb-admin').classList.add('on');$('v-admin').classList.add('vis');loadAdm()}}}
+
+async function boot(){
+if(P.get('embed')==='1')document.body.classList.add('embed');
+if(TK){try{const r=await fetch('/api/instructor/me',{headers:hdr()});if(r.ok)INST=await r.json()}catch(e){}}
+if(TK||AT){ADM=!!AT;$('nav-bar').classList.add('vis');if(!INST)$('nb-inst').style.display='none';if(!ADM)$('nb-admin').style.display='none'}
+const[cR,clR,wR]=await Promise.all([fetch('/api/categories'),fetch('/api/classes'),fetch('/api/waiver-text')]);
+CATS=(await cR.json()).categories;CLS=(await clR.json()).classes;WT=await wR.json();
+const ac=CATS.filter(c=>c.class_count>0),ins=[...new Set(CLS.map(c=>c.instructor_name))];
+$('s-cls').textContent=CLS.length;$('s-gui').textContent=ac.length;$('s-ins').textContent=ins.length;
+renderCN();renderCat();popCS();
+if(P.get('payment')==='success')toast('Payment received! You are registered.');
+if(P.get('payment')==='cancel')toast('Payment cancelled.');
+}
+
+function renderCN(){const el=$('cat-inner');const ac=CATS.filter(c=>c.class_count>0);
+let h=`<button class="cp ${!FILT?'on':''}" onclick="sf('')">All<span class="ct">${CLS.length}</span></button>`;
+ac.forEach(c=>{h+=`<button class="cp ${FILT===c.slug?'on':''}" onclick="sf('${c.slug}')">${esc(c.name)}<span class="ct">${c.class_count}</span></button>`});
+el.innerHTML=h}
+function sf(s){FILT=s;renderCN();renderCat()}
+
+// ── Group classes by base title ──
+function groupClasses(classes){
+  // Strip date-specific suffixes to find base title
+  // Group by: same instructor + same base title (first part before " - ")
+  const groups=[];const seen={};
+  classes.forEach(c=>{
+    // Use title up to " - " as base, or full title if no dash
+    const base=(c.title.split(' - ')[0]).trim();
+    const key=`${c.instructor_id}::${base}`;
+    if(!seen[key]){seen[key]={base,classes:[],instructor_name:c.instructor_name,instructor_social:c.instructor_social,
+      category_name:c.category_name,category_slug:c.category_slug,image_url:c.image_url,category_image_url:c.category_image_url,
+      price_cents:c.price_cents,member_discount_pct:c.member_discount_pct,description:c.description,scheduling_model:c.scheduling_model};
+      groups.push(seen[key])}
+    seen[key].classes.push(c);
+  });
+  return groups;
+}
+
+function renderCat(){const el=$('catalog');let f=CLS;if(FILT)f=f.filter(c=>c.category_slug===FILT);
+if(!f.length){el.innerHTML='<div class="empty">No classes scheduled in this category yet.</div>';return}
+const g={};f.forEach(c=>{const k=c.category_slug;if(!g[k])g[k]={name:c.category_name,slug:k,classes:[]};g[k].classes.push(c)});
+const co=CATS.map(c=>c.slug),sg=Object.values(g).sort((a,b)=>co.indexOf(a.slug)-co.indexOf(b.slug));
+let h='';sg.forEach(gp=>{
+  const groups=groupClasses(gp.classes);
+  const uniqueCount=groups.length;
+  h+=`<div class="cat-sec" id="sec-${gp.slug}"><div class="cat-hd"><h2>${esc(gp.name)}</h2><span class="cc">${gp.classes.length} listing${gp.classes.length!==1?'s':''} · ${uniqueCount} class${uniqueCount!==1?'es':''}</span></div>`;
+
+  groups.forEach((grp,gi)=>{
+    const gid=`grp-${gp.slug}-${gi}`;
+    const img=grp.image_url||grp.category_image_url;
+    const imgH=img?`<img class="cls-img" src="${esc(img)}" alt="" loading="lazy">`:`<div class="cls-img-ph">${esc(grp.category_name[0])}</div>`;
+    const mp=grp.member_discount_pct?fP(Math.round(grp.price_cents*(100-grp.member_discount_pct)/100)):'';
+
+    // Aggregate info across all variants
+    const allSessions=grp.classes.flatMap(c=>c.sessions||[]);
+    const totalSpots=grp.classes.reduce((s,c)=>s+c.spots_left,0);
+    const totalVariants=grp.classes.length;
+    const isFlex=grp.scheduling_model==='flexible';
+
+    let badges='';if(isFlex)badges+='<span class="badge fx">Flex</span>';if(grp.classes.some(c=>c.is_private))badges+='<span class="badge pv">Private</span>';
+
+    // Find instructor slug from first class
+    const instSlug=grp.classes[0]?.instructor_name?_make_slug(grp.classes[0].instructor_name):'';
+
+    let metaText='';
+    if(totalVariants===1){
+      const ss=grp.classes[0].sessions||[];
+      if(ss.length===1)metaText=`${fD(ss[0].session_date)} · ${fT(ss[0].start_time)}–${fT(ss[0].end_time)}`;
+      else if(ss.length>1)metaText=`${ss.length} sessions · starts ${fD(ss[0].session_date)}`;
+      else if(isFlex)metaText='Schedule with instructor';
+    }else{
+      metaText=`${totalVariants} upcoming dates`;
+    }
+
+    const spotText=totalSpots===0?'Sold out':totalSpots<=3?`${totalSpots} spots left`:`${totalSpots} spots`;
+    const spotCls=totalSpots===0?'full':totalSpots<=3?'low':'ok';
+
+    if(totalVariants===1){
+      // Single class — click goes straight to detail
+      const c=grp.classes[0];
+      h+=`<div class="cls-group"><div class="cls-card" onclick="openD('${c.slug}')">
+        ${imgH}<div class="cls-info"><div class="cls-title">${esc(grp.base)}${badges}</div>
+        <div class="cls-inst">with <a onclick="event.stopPropagation();openIP('${esc(instSlug)}')">${esc(grp.instructor_name)}</a></div>
+        <div class="cls-desc">${esc(metaText)}</div></div>
+        <div class="cls-right"><div class="cls-price">${fP(grp.price_cents)}</div>${mp?`<div class="cls-meta">${mp} members</div>`:''}<div class="cls-meta cdr-spots ${spotCls}">${spotText}</div></div>
+      </div></div>`;
+    }else{
+      // Multiple variants — expandable
+      h+=`<div class="cls-group"><div class="cls-card" id="${gid}-card" onclick="togGroup('${gid}')">
+        ${imgH}<div class="cls-info"><div class="cls-title">${esc(grp.base)}${badges}</div>
+        <div class="cls-inst">with <a onclick="event.stopPropagation();openIP('${esc(instSlug)}')">${esc(grp.instructor_name)}</a></div>
+        <div class="cls-dates-count">${totalVariants} dates available — click to expand</div></div>
+        <div class="cls-right"><div class="cls-price">${fP(grp.price_cents)}</div>${mp?`<div class="cls-meta">${mp} members</div>`:''}<div class="cls-meta cdr-spots ${spotCls}">${spotText}</div></div>
+      </div>`;
+      h+=`<div class="cls-dates-list" id="${gid}-dates">`;
+      grp.classes.forEach(c=>{
+        const ss=c.sessions||[];
+        const sp=c.spots_left;const sc=sp===0?'full':sp<=2?'low':'ok';const st=sp===0?'Full':`${sp} left`;
+        const suffix=c.title.includes(' - ')?c.title.split(' - ').slice(1).join(' - '):'';
+        let whenH='';
+        if(isFlex)whenH='Flexible scheduling';
+        else if(ss.length===1)whenH=`${fD(ss[0].session_date)}`;
+        else if(ss.length>1)whenH=`${fD(ss[0].session_date)} + ${ss.length-1} more`;
+        const timeH=ss.length?`${fT(ss[0].start_time)}–${fT(ss[0].end_time)}`:'';
+        const totalMin=ss.reduce((s,x)=>s+x.duration_minutes,0);
+        h+=`<div class="cls-date-row" onclick="openD('${c.slug}')">
+          <div class="cdr-ph"></div>
+          <div class="cdr-when">${whenH}${suffix?` <span style="color:var(--text3);font-size:10px">(${esc(suffix)})</span>`:''}</div>
+          <div class="cdr-time">${timeH}</div>
+          <div class="cdr-dur">${totalMin?fDur(totalMin):'—'}</div>
+          <div class="cdr-spots ${sc}">${st}</div>
+        </div>`;
+      });
+      h+=`</div></div>`;
+    }
+  });
+  h+='</div>'});el.innerHTML=h}
+
+function _make_slug(name){return name.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/[\s-]+/g,'-').substring(0,80)}
+function togGroup(gid){const card=$(gid+'-card'),list=$(gid+'-dates');
+const open=list.classList.contains('open');list.classList.toggle('open');card.classList.toggle('expanded')}
+
+// ── Detail ──
+async function openD(slug){const ov=$('overlay'),hl=$('dh-left'),bd=$('db'),di=$('dcard-img');
+hl.innerHTML='<div class="dc-cat">Loading...</div>';bd.innerHTML='';di.classList.remove('vis');di.src='';ov.classList.add('open');document.body.style.overflow='hidden';
+const r=await fetch(`/api/classes/${slug}`),c=await r.json();if(c.error){bd.innerHTML=`<div class="empty">${esc(c.error)}</div>`;return}
+const ss=c.sessions||[],tm=ss.reduce((s,x)=>s+x.duration_minutes,0),mp=c.member_discount_pct?Math.round(c.price_cents*(100-c.member_discount_pct)/100):null;
+const img=c.image_url||c.category_image_url;if(img){di.src=img;di.classList.add('vis')}
+const instSlug=_make_slug(c.instructor_name);
+hl.innerHTML=`<div class="dc-cat">${esc(c.category_name)}</div><div class="dc-title">${esc(c.title)}</div><div class="dc-inst">with <a onclick="closeD();setTimeout(()=>openIP('${esc(instSlug)}'),100)">${esc(c.instructor_name)}</a>${c.instructor_social?' · '+esc(c.instructor_social):''}</div>`;
+let h='';const sl=c.spots_left;let spH=`<span style="color:var(--green)">${sl} spot${sl!==1?'s':''} available</span>`;
+if(sl===0)spH='<span style="color:var(--red)">Sold out</span>';else if(sl<=2)spH=`<span style="color:var(--red)">${sl} spot${sl!==1?'s':''} left</span>`;
+h+=`<div class="dc-pbar"><div class="dc-pbig">${fP(c.price_cents)}</div>${mp?`<div class="dc-pmem">${fP(mp)} for members</div>`:''}<div class="dc-pspot">${spH}</div></div>`;
+if(ss.length){h+=`<div class="dc-sec"><div class="dc-lbl">Schedule${tm?' · '+fDur(tm)+' total':''}</div>`;
+ss.forEach((s,i)=>{h+=`<div class="dc-srow">${ss.length>1?`<span class="dc-snum">${i+1}</span>`:''}<span class="dc-sdate">${fDL(s.session_date)}</span><span class="dc-stime">${fT(s.start_time)} – ${fT(s.end_time)}</span><span class="dc-sdur">${fDur(s.duration_minutes)}</span></div>`});
+h+=`<a class="dc-cal" href="/api/classes/${c.slug}/ical" download>&#128197; Add to Calendar</a></div>`}
+else if(c.scheduling_model==='flexible')h+=`<div class="dc-sec"><div class="dc-lbl">Schedule</div><div class="dc-txt" style="color:var(--purple)">Flexible — schedule directly with the instructor.</div></div>`;
+if(c.description)h+=`<div class="dc-sec"><div class="dc-lbl">About This Class</div><div class="dc-txt">${esc(c.description)}</div></div>`;
+const infos=[];if(c.prerequisites)infos.push(['Prerequisites',c.prerequisites]);if(c.materials_included)infos.push(['Materials',c.materials_included]);
+if(c.safety_requirements)infos.push(['Safety',c.safety_requirements]);if(c.age_minimum)infos.push(['Age',c.age_minimum+'+'+(c.age_guardian_note?' — '+c.age_guardian_note:'')]);
+if(c.instructor_bio)infos.push(['About '+c.instructor_name,c.instructor_bio]);
+if(infos.length){h+='<div class="dc-igrid">';infos.forEach(([l,t])=>{h+=`<div class="dc-icard"><div class="dc-lbl">${esc(l)}</div><div class="dc-txt">${esc(t)}</div></div>`});h+='</div>'}
+h+=`<div class="dc-sec" style="margin-top:12px"><div class="dc-lbl">Location</div><div class="dc-txt">Past Lives Makerspace · 2808 SE 9th Ave, Portland, OR 97202</div></div>`;
+h+='<div class="dc-reg">';
+if(sl>0){h+=`<button class="btn-reg" onclick="togReg()">Register — ${fP(c.price_cents)}</button><div id="regf">`;
+h+=`<div class="rf-g"><div class="rf-r"><label>First name *</label><input id="rf-fn"></div><div class="rf-r"><label>Last name *</label><input id="rf-ln"></div></div>`;
+h+=`<div class="rf-g"><div class="rf-r"><label>Email *</label><input id="rf-em" type="email"></div><div class="rf-r"><label>Phone</label><input id="rf-ph" type="tel"></div></div>`;
+h+=`<div class="rf-r"><label>Pronouns</label><input id="rf-pro" placeholder="e.g. she/her"></div>`;
+h+=`<div class="rf-r"><label>Discount code</label><input id="rf-dc" placeholder="e.g. PLM-MEMBER" style="text-transform:uppercase"></div>`;
+h+=`<div class="rf-r"><label>Prior experience</label><textarea id="rf-exp" rows="1" placeholder="Optional"></textarea></div>`;
+h+=`<div class="dc-sec" style="margin-top:8px"><div class="dc-lbl">Liability Waiver *</div><div class="waiver-box">${esc(WT.liability||'')}</div>`;
+h+=`<div class="rf-chk"><input type="checkbox" id="rf-wac"><label for="rf-wac">I accept the liability waiver</label></div>`;
+h+=`<div class="rf-r"><label>Signature (type full name) *</label><input id="rf-wsig"></div></div>`;
+if(c.requires_model_release){
+h+=`<div class="dc-sec" style="margin-top:8px"><div class="dc-lbl">Model Release *</div><div class="waiver-box">${esc(WT.model_release||'')}</div>`;
+h+=`<div class="rf-chk"><input type="checkbox" id="rf-mrac"><label for="rf-mrac">I accept the model release</label></div>`;
+h+=`<div class="rf-r"><label>Signature *</label><input id="rf-mrsig"></div></div>`}
+h+=`<button class="btn-reg" onclick="subReg('${c.slug}',${c.requires_model_release?1:0})" style="margin-top:8px">Complete Registration</button><div id="reg-result"></div></div>`}
+else h+='<div class="btn-sold">Sold Out</div>';
+h+='</div>';bd.innerHTML=h}
+
+function closeD(){$('overlay').classList.remove('open');document.body.style.overflow='';$('dcard-img').classList.remove('vis');$('dcard-img').src=''}
+function togReg(){const f=$('regf');f.classList.toggle('open');if(f.classList.contains('open'))$('rf-fn').focus()}
+
+async function subReg(slug,mr){const res=$('reg-result');res.className='';res.style.display='none';
+const d={first_name:$('rf-fn').value.trim(),last_name:$('rf-ln').value.trim(),email:$('rf-em').value.trim(),phone:$('rf-ph').value.trim(),
+pronouns:$('rf-pro').value.trim(),discount_code:$('rf-dc').value.trim(),prior_experience:$('rf-exp').value.trim(),
+waiver_accepted:$('rf-wac').checked,waiver_signature:$('rf-wsig').value.trim()};
+if(mr){d.model_release_accepted=$('rf-mrac')?.checked;d.model_release_signature=$('rf-mrsig')?.value.trim()}
+if(!d.first_name||!d.last_name||!d.email){res.className='err';res.style.display='block';res.textContent='Name and email required.';return}
+if(!d.waiver_accepted||!d.waiver_signature){res.className='err';res.style.display='block';res.textContent='Please accept waiver and sign.';return}
+if(mr&&(!d.model_release_accepted||!d.model_release_signature)){res.className='err';res.style.display='block';res.textContent='Please accept model release and sign.';return}
+const r=await fetch(`/api/register/${slug}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+const j=await r.json();if(j.checkout_url){window.location.href=j.checkout_url;return}
+if(j.ok){res.className=j.waitlisted?'wait':'ok';res.style.display='block';
+res.textContent=j.waitlisted?"Waitlisted! We'll email you.":`Registered! Confirmation sent to ${d.email}.`;
+const cr=await fetch('/api/classes');CLS=(await cr.json()).classes;renderCat()}
+else{res.className='err';res.style.display='block';res.textContent=j.error||'Error'}}
+
+// ── Instructor Profile ──
+async function openIP(slug){const ov=$('overlay'),hl=$('dh-left'),bd=$('db'),di=$('dcard-img');
+hl.innerHTML='<div class="dc-cat">Loading...</div>';bd.innerHTML='';di.classList.remove('vis');di.src='';ov.classList.add('open');document.body.style.overflow='hidden';
+const r=await fetch(`/api/instructors/${slug}`);const p=await r.json();
+if(p.error){bd.innerHTML=`<div class="empty">${esc(p.error)}</div>`;return}
+if(p.photo_url){di.src=p.photo_url;di.classList.add('vis')}
+hl.innerHTML=`<div class="dc-cat">Instructor</div><div class="dc-title">${esc(p.name)}</div>`;
+let h=`<div class="ip-hero">`;
+if(p.photo_url)h+=`<img class="ip-photo" src="${esc(p.photo_url)}" alt="">`;
+else{const init=p.name.split(' ').map(w=>w[0]).join('').toUpperCase();h+=`<div class="ip-photo-ph">${init}</div>`}
+h+=`<div><div class="ip-name">${esc(p.name)}</div><div class="ip-links">`;
+if(p.social_handle)h+=`<a href="https://instagram.com/${p.social_handle.replace('@','')}" target="_blank">${esc(p.social_handle)}</a>`;
+if(p.website)h+=`<a href="https://${p.website.replace(/^https?:\/\//,'')}" target="_blank">${esc(p.website)}</a>`;
+h+=`</div>`;
+if(p.bio)h+=`<div class="ip-bio">${esc(p.bio)}</div>`;
+h+=`</div></div>`;
+
+if(p.current_classes&&p.current_classes.length){
+  h+=`<div class="ip-sec"><h3>Current Classes</h3>`;
+  p.current_classes.forEach(c=>{
+    const ss=c.sessions||[];const dateStr=ss.length?ss.map(s=>fD(s.session_date)).join(', '):'Flexible scheduling';
+    h+=`<div class="ip-cls" onclick="closeD();setTimeout(()=>openD('${c.slug}'),100)">
+      <div class="ip-cls-t">${esc(c.title)}</div>
+      <div class="ip-cls-m">${esc(c.category_name)} · ${fP(c.price_cents)} · ${dateStr} · ${c.spots_left} spots left</div>
+    </div>`});h+=`</div>`}
+
+if(p.past_classes&&p.past_classes.length){
+  h+=`<div class="ip-sec"><h3>Past Classes</h3>`;
+  p.past_classes.forEach(c=>{h+=`<div class="ip-cls" style="opacity:.5;cursor:default"><div class="ip-cls-t">${esc(c.title)}</div><div class="ip-cls-m">${esc(c.category_name||'')}</div></div>`});
+  h+=`</div>`}
+
+bd.innerHTML=h}
+
+// ── Instructor Create ──
+function popCS(){$('cf-cat').innerHTML=CATS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
+function addSR(){const el=$('sess-rows'),r=document.createElement('div');r.className='sr';
+r.innerHTML='<input type="date" class="sd-d"><input type="time" class="sd-s" value="18:00"><input type="time" class="sd-e" value="21:00"><button class="sr-rm" onclick="this.parentElement.remove()">&times;</button>';el.appendChild(r)}
+async function mkClass(sub){if(!INST){toast('Login required');return}
+const t=$('cf-title').value.trim(),p=parseFloat($('cf-price').value);if(!t){toast('Title required');return}if(!p){toast('Price required');return}
+const ss=[...$('sess-rows').children].map(r=>{const d=r.querySelector('.sd-d').value,s=r.querySelector('.sd-s').value,e=r.querySelector('.sd-e').value;
+if(!d||!s||!e)return null;const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);
+return{date:d,start_time:s,end_time:e,duration_minutes:(eh*60+em)-(sh*60+sm)}}).filter(Boolean);
+const data={title:t,category_id:parseInt($('cf-cat').value),price:p,description:$('cf-desc').value.trim(),
+capacity:parseInt($('cf-cap').value)||6,scheduling_model:$('cf-model').value,prerequisites:$('cf-pre').value.trim()||null,materials_included:$('cf-mat').value.trim()||null,sessions:ss};
+const r=await fetch('/api/instructor/classes',{method:'POST',headers:hdr(),body:JSON.stringify(data)});const j=await r.json();
+if(j.ok){if(sub){await fetch(`/api/instructor/classes/${j.class_id}/submit`,{method:'POST',headers:hdr()});toast('Submitted!')}else toast('Saved');
+$('cf-title').value='';$('cf-price').value='';$('cf-desc').value='';$('cf-pre').value='';$('cf-mat').value='';$('sess-rows').innerHTML='';loadInst()}else toast(j.error||'Error')}
+
+async function loadInst(){if(!INST)return;const r=await fetch('/api/instructor/classes',{headers:hdr()});const d=await r.json();const el=$('inst-cls');
+if(!d.classes.length){el.innerHTML='<div class="empty">No classes yet.</div>';return}
+el.innerHTML=d.classes.map(c=>{const ss=c.sessions||[];const ds=ss.length?ss.map(s=>fD(s.session_date)).join(', '):'No dates';
+return`<div class="mr"><div class="mr-info"><div class="mr-t"><span class="sd ${c.status}"></span>${esc(c.title)}</div><div class="mr-m">${esc(c.category_name)} · ${fP(c.price_cents)} · ${ds} · ${c.registration_count}/${c.capacity}</div></div><div class="mr-acts">${c.status==='draft'?`<button class="mb go" onclick="subCls(${c.id})">Submit</button>`:''}</div></div>`}).join('')}
+async function subCls(id){await fetch(`/api/instructor/classes/${id}/submit`,{method:'POST',headers:hdr()});toast('Submitted');loadInst()}
+
+// ── Admin ──
+async function loadAdm(){if(!ADM)return;await Promise.all([ldP(),ldAC(),ldAS(),ldACd(),ldAW(),ldAI()])}
+async function ldP(){const r=await fetch('/api/admin/pending?'+new URLSearchParams({admin:AT}));const d=await r.json();const el=$('a-pending');
+if(!d.classes.length){el.innerHTML='<div class="empty">Nothing pending.</div>';return}
+el.innerHTML=d.classes.map(c=>{const ss=(c.sessions||[]).map(s=>`${fD(s.session_date)} ${fT(s.start_time)}–${fT(s.end_time)}`).join(' · ');
+return`<div class="mr" style="border-color:var(--accent)"><div class="mr-info"><div class="mr-t">${esc(c.title)}</div><div class="mr-m">${esc(c.category_name)} · ${esc(c.instructor_name)} · ${fP(c.price_cents)} · Cap: ${c.capacity}${ss?'<br>'+ss:''}</div></div><div class="mr-acts"><button class="mb go" onclick="appr(${c.id})">Approve</button><button class="mb wr" onclick="rej(${c.id})">Back</button></div></div>`}).join('')}
+async function appr(id){await fetch(`/api/admin/classes/${id}/approve`,{method:'POST',headers:hdr()});toast('Published!');const cr=await fetch('/api/classes');CLS=(await cr.json()).classes;renderCat();loadAdm()}
+async function rej(id){const reason=prompt('Reason:');await fetch(`/api/admin/classes/${id}/reject`,{method:'POST',headers:hdr(),body:JSON.stringify({reason})});toast('Sent back');loadAdm()}
+async function ldAC(){const r=await fetch('/api/admin/classes?'+new URLSearchParams({admin:AT}));const d=await r.json();
+$('a-classes').innerHTML=d.classes.map(c=>`<div class="mr"><div class="mr-info"><div class="mr-t"><span class="sd ${c.status}"></span>${esc(c.title)}</div><div class="mr-m">${esc(c.instructor_name)} · ${fP(c.price_cents)} · ${c.registration_count}/${c.capacity}</div></div><div class="mr-acts">${c.status==='published'?`<button class="mb wr" onclick="arch(${c.id})">Archive</button>`:c.status==='pending'?`<button class="mb go" onclick="appr(${c.id})">Approve</button>`:''}</div></div>`).join('')}
+async function arch(id){await fetch(`/api/admin/classes/${id}/archive`,{method:'POST',headers:hdr()});toast('Archived');loadAdm()}
+async function ldAS(){const r=await fetch('/api/admin/students?'+new URLSearchParams({admin:AT}));const d=await r.json();const el=$('a-students');
+if(!d.students.length){el.innerHTML='<div class="empty">No students yet.</div>';return}
+el.innerHTML=d.students.map(s=>`<div class="mr"><div class="mr-info"><div class="mr-t">${esc(s.first_name)} ${esc(s.last_name)}</div><div class="mr-m">${esc(s.email)} · ${s.registration_count} reg${s.registration_count!==1?'s':''}</div></div></div>`).join('')}
+async function ldACd(){const r=await fetch('/api/admin/discount-codes?'+new URLSearchParams({admin:AT}));const d=await r.json();const el=$('a-codes');
+if(!d.codes.length){el.innerHTML='<div class="empty">No codes.</div>';return}
+el.innerHTML=d.codes.map(c=>`<div class="mr"><div class="mr-info"><div class="mr-t" style="font-family:monospace">${esc(c.code)}</div><div class="mr-m">${esc(c.description||'')} · ${c.discount_pct||0}% · Used ${c.use_count}${c.max_uses?'/'+c.max_uses:''} · ${c.is_active?'<span style="color:var(--green)">Active</span>':'<span style="color:var(--red)">Off</span>'}</div></div><div class="mr-acts"><button class="mb ${c.is_active?'wr':'go'}" onclick="togCd(${c.id},${c.is_active?0:1})">${c.is_active?'Disable':'Enable'}</button></div></div>`).join('')}
+async function mkCode(){const code=$('dc-code').value.trim();if(!code){toast('Code required');return}
+await fetch('/api/admin/discount-codes',{method:'POST',headers:hdr(),body:JSON.stringify({code,description:$('dc-desc').value.trim(),discount_pct:parseInt($('dc-pct').value)||null,max_uses:parseInt($('dc-max').value)||null})});
+$('dc-code').value='';$('dc-desc').value='';$('dc-pct').value='';$('dc-max').value='';toast('Created');ldACd()}
+async function togCd(id,v){await fetch(`/api/admin/discount-codes/${id}`,{method:'PUT',headers:hdr(),body:JSON.stringify({is_active:v})});ldACd()}
+async function ldAW(){const r=await fetch('/api/admin/waivers?'+new URLSearchParams({admin:AT}));const d=await r.json();const el=$('a-waivers');
+if(!d.waivers.length){el.innerHTML='<div class="empty">No waivers.</div>';return}
+el.innerHTML=d.waivers.map(w=>`<div class="mr"><div class="mr-info"><div class="mr-t">${esc(w.first_name)} ${esc(w.last_name)} — ${w.waiver_type==='model_release'?'Model Release':'Liability'}</div><div class="mr-m">Signed: ${esc(w.signature_text)} · ${esc(w.signed_at)} · ${esc(w.class_title||'')}</div></div></div>`).join('')}
+async function ldAI(){const r=await fetch('/api/admin/instructors?'+new URLSearchParams({admin:AT}));const d=await r.json();
+$('a-instr').innerHTML=d.instructors.map(i=>`<div class="mr"><div class="mr-info"><div class="mr-t">${esc(i.name)}</div><div class="mr-m">${esc(i.email||'')} · ${i.class_count} classes · <a href="/?token=${i.login_token}">login</a></div></div></div>`).join('')}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeD()});
+boot();
+</script>
+</body>
+</html>

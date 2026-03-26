@@ -1,0 +1,11 @@
+*.db
+*.sqlite3
+__pycache__/
+*.pyc
+.env
+static/uploads/*
+!static/uploads/.gitkeep
+.DS_Store
+*.egg-info/
+dist/
+build/
